@@ -5,7 +5,6 @@
     --purple: #5a5180;
     --dark-text: #2c2c2c;
     --white: #ffffff;
-    --whatsapp-green: #25D366;
 }
 
 * {
@@ -18,203 +17,214 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--cream);
     color: var(--dark-text);
-    line-height: 1.6;
+    line-height: 1.4; /* Tighter line height */
 }
 
 header {
     text-align: center;
-    padding: 3rem 1rem 2rem;
+    padding: 1rem 1rem 0.5rem; /* Minimal padding */
 }
 
 .main-logo {
-    max-width: 300px;
+    max-width: 220px;
     height: auto;
 }
 
 .tagline {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     font-weight: 600;
     letter-spacing: 2px;
     color: var(--purple);
     text-transform: uppercase;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 main {
-    max-width: 800px;
+    max-width: 600px; /* Narrower for better reading */
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1rem 1.5rem 2rem;
     min-height: 60vh;
 }
 
 /* Action Links Container */
 .action-links-container {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 3rem;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
 }
 
 .action-btn {
     flex: 1;
     text-decoration: none;
-    padding: 1rem;
-    border-radius: 12px;
+    padding: 0.8rem;
+    border-radius: 10px;
     text-align: center;
     font-weight: 700;
     color: var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s, filter 0.2s;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-size: 0.85rem;
 }
 
-.action-btn:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
+.action-btn:active {
+    transform: scale(0.98);
 }
 
 .whatsapp-btn {
-    background-color: var(--olive); /* Using Olive for a brand-consistent "greenish" action */
+    background-color: var(--olive);
 }
 
 .form-btn {
     background-color: var(--purple);
 }
 
-.loader {
-    text-align: center;
-    padding: 4rem;
-    color: var(--olive);
-}
-
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid var(--cream);
-    border-top: 4px solid var(--red);
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
 /* City Sections */
 .city-section {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 }
 
 .city-header {
-    font-size: 1.8rem;
+    font-size: 1rem;
     color: var(--purple);
     text-transform: uppercase;
     letter-spacing: 3px;
-    margin-bottom: 2rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 3px solid var(--olive);
+    margin-bottom: 1rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 2px solid var(--olive);
     display: inline-block;
 }
 
+/* Event Cards (Compact Version) */
 .event-card {
     background: var(--white);
-    border-radius: 12px;
+    border-radius: 10px;
+    margin-bottom: 0.8rem; /* Tighter spacing */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    transition: transform 0.2s ease;
+    border-left: 6px solid var(--red);
     overflow: hidden;
-    margin-bottom: 2.5rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease;
-    border: 1px solid rgba(176, 171, 65, 0.2);
 }
+
+.event-card:nth-child(even) { border-left-color: var(--purple); }
+.event-card:nth-child(3n) { border-left-color: var(--olive); }
 
 .event-card:hover {
-    transform: translateY(-5px);
-}
-
-.event-image {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    background-color: var(--purple);
+    transform: translateX(4px);
 }
 
 .event-content {
-    padding: 1.5rem;
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .event-title {
-    font-size: 1.4rem;
-    color: var(--red);
-    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--dark-text);
+    margin-bottom: 0.2rem;
     font-weight: 700;
 }
 
-.event-meta-description {
-    font-size: 0.95rem;
-    color: #666;
-    margin-bottom: 1rem;
+.user-description {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.8rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-.user-description {
-    border-top: 1px solid #eee;
-    padding-top: 1rem;
-    margin-bottom: 1.5rem;
-    font-style: italic;
-    color: var(--dark-text);
-}
-
 .ticket-button {
-    display: inline-block;
-    background-color: var(--purple);
+    align-self: flex-start;
+    background-color: var(--red); /* Changed to brand red */
     color: var(--white);
     text-decoration: none;
-    padding: 0.8rem 1.5rem;
+    padding: 0.5rem 1rem;
     border-radius: 6px;
-    font-weight: 600;
-    transition: background-color 0.2s;
-    width: 100%;
-    text-align: center;
+    font-weight: 700;
+    transition: filter 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
 }
 
 .ticket-button:hover {
-    background-color: var(--olive);
-}
-
-.event-card:nth-child(odd) .ticket-button {
-    background-color: var(--purple);
-}
-
-.event-card:nth-child(even) .ticket-button {
-    background-color: var(--red);
+    filter: brightness(1.1);
 }
 
 footer {
     text-align: center;
-    padding: 3rem 1rem;
-    font-size: 0.8rem;
-    color: #888;
+    padding: 2rem 1rem;
+    font-size: 0.75rem;
+    color: #999;
 }
 
+/* MOBILE OPTIMIZATIONS */
 @media (max-width: 600px) {
-    .main-logo {
-        max-width: 200px;
+    header {
+        padding: 0.8rem 1rem 0.5rem; /* Minimal padding on mobile */
     }
     
+    .main-logo {
+        max-width: 150px;
+    }
+    
+    .tagline {
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+        margin-top: 0.3rem;
+    }
+
     main {
-        padding: 1rem;
+        padding: 0.5rem 1rem 2rem;
     }
 
     .action-links-container {
-        flex-direction: column;
+        margin-bottom: 1.2rem;
+        gap: 0.6rem;
+    }
+
+    .action-btn {
+        padding: 0.7rem 0.5rem;
+        font-size: 0.75rem;
+        border-radius: 8px;
+    }
+
+    .city-section {
+        margin-bottom: 1.5rem;
     }
 
     .city-header {
-        font-size: 1.5rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .event-card {
+        margin-bottom: 0.6rem;
+        border-left-width: 5px;
+    }
+
+    .event-content {
+        padding: 0.7rem 1rem;
+    }
+
+    .event-title {
+        font-size: 0.95rem;
+        margin-bottom: 0.1rem;
+    }
+
+    .user-description {
+        font-size: 0.8rem;
+        margin-bottom: 0.7rem;
+        -webkit-line-clamp: 1;
+    }
+
+    .ticket-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.7rem;
     }
 }
