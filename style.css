@@ -1,0 +1,180 @@
+:root {
+    --cream: #f4f0df;
+    --red: #be4840;
+    --olive: #b0ab41;
+    --purple: #5a5180;
+    --dark-text: #2c2c2c;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--cream);
+    color: var(--dark-text);
+    line-height: 1.6;
+}
+
+header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+}
+
+.main-logo {
+    max-width: 300px;
+    height: auto;
+}
+
+.tagline {
+    margin-top: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--purple);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 60vh;
+}
+
+.loader {
+    text-align: center;
+    padding: 4rem;
+    color: var(--olive);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--cream);
+    border-top: 4px solid var(--red);
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* City Sections */
+.city-section {
+    margin-bottom: 4rem;
+}
+
+.city-header {
+    font-size: 1.8rem;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--olive);
+    display: inline-block;
+}
+
+.event-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(176, 171, 65, 0.2);
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    background-color: var(--purple);
+}
+
+.event-content {
+    padding: 1.5rem;
+}
+
+.event-title {
+    font-size: 1.4rem;
+    color: var(--red);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.event-meta-description {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.user-description {
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    color: var(--dark-text);
+}
+
+.ticket-button {
+    display: inline-block;
+    background-color: var(--purple);
+    color: var(--white);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    width: 100%;
+    text-align: center;
+}
+
+.ticket-button:hover {
+    background-color: var(--olive);
+}
+
+.event-card:nth-child(odd) .ticket-button {
+    background-color: var(--purple);
+}
+
+.event-card:nth-child(even) .ticket-button {
+    background-color: var(--red);
+}
+
+footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+@media (max-width: 600px) {
+    .main-logo {
+        max-width: 200px;
+    }
+    
+    main {
+        padding: 1rem;
+    }
+
+    .city-header {
+        font-size: 1.5rem;
+    }
+}
