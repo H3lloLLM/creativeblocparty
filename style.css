@@ -5,6 +5,7 @@
     --purple: #5a5180;
     --dark-text: #2c2c2c;
     --white: #ffffff;
+    --whatsapp-green: #25D366;
 }
 
 * {
@@ -44,6 +45,41 @@ main {
     margin: 0 auto;
     padding: 2rem;
     min-height: 60vh;
+}
+
+/* Action Links Container */
+.action-links-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.action-btn {
+    flex: 1;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, filter 0.2s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.whatsapp-btn {
+    background-color: var(--olive); /* Using Olive for a brand-consistent "greenish" action */
+}
+
+.form-btn {
+    background-color: var(--purple);
 }
 
 .loader {
@@ -172,6 +208,10 @@ footer {
     
     main {
         padding: 1rem;
+    }
+
+    .action-links-container {
+        flex-direction: column;
     }
 
     .city-header {
