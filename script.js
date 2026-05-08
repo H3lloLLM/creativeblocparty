@@ -1,35 +1,70 @@
-// REPLACE THIS URL with your deployed Google Apps Script Web App URL
-const GAS_WEB_APP_URL = 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE';
-
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzcNZGgvv-Ff0DQ3W-RWW1rjfHP6w1q-ESEhJe7k_ph1bMirIIu2i2_CrYDRmundqEB/exec';
 const container = document.getElementById('event-container');
 const yearSpan = document.getElementById('year');
-
-// Set current year in footer
 yearSpan.textContent = new Date().getFullYear();
+
+// Cache Key for local storage
+const CACHE_KEY = 'cbp_events_data';
+
+async function init() {
+    // 1. Try to load from Local Storage immediately for "instant" feel
+    const cachedData = localStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+        try {
+            const data = JSON.parse(cachedData);
+            renderEventsGroupedByCity(data);
+        } catch (e) {
+            console.error('Failed to parse cache:', e);
+            localStorage.removeItem(CACHE_KEY);
+        }
+    }
+
+    // 2. Fetch fresh data from the sheet in the background
+    await fetchEvents();
+}
 
 async function fetchEvents() {
     try {
-        if (GAS_WEB_APP_URL.includes('https://script.google.com/macros/s/AKfycbwxwdy9_uvOz0u-cjwvHuUSEYMCxhGcDk4aAqeNkb1AsrivCVagzbREevN1bRsAS-s/exec')) {
-            showError('Please deploy your Google Apps Script and paste the Web App URL in script.js');
-            return;
-        }
+        if (GAS_WEB_APP_URL.includes('YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE')) return;
 
         const response = await fetch(GAS_WEB_APP_URL);
-        if (!response.ok) throw new Error('Failed to fetch events');
+        if (!response.ok) throw new Error('Network error');
         
         const data = await response.json();
-        renderEventsGroupedByCity(data);
+        if (data.error) throw new Error(data.error);
+
+        // 3. Check if new data is different from what we already have
+        const currentDataStr = localStorage.getItem(CACHE_KEY);
+        const newDataStr = JSON.stringify(data);
+
+        if (newDataStr !== currentDataStr) {
+            // Update storage and refresh the UI silently
+            localStorage.setItem(CACHE_KEY, newDataStr);
+            renderEventsGroupedByCity(data);
+        }
     } catch (error) {
-        console.error('Error fetching events:', error);
-        showError('Could not load events. Please check the Google Sheet setup.');
+        console.error('Fetch failed:', error);
+        // Only show error message if the page is totally empty
+        if (!localStorage.getItem(CACHE_KEY)) {
+            showError('Could not load events. Please check your connection.');
+        }
     }
 }
 
 function renderEventsGroupedByCity(events) {
-    container.innerHTML = '';
+    let contentArea = document.getElementById('event-content-area');
+    if (!contentArea) {
+        contentArea = document.createElement('div');
+        contentArea.id = 'event-content-area';
+        container.appendChild(contentArea);
+    }
     
+    // Remove loader if present
+    const loader = container.querySelector('.loader');
+    if (loader) loader.remove();
+
     if (events.length === 0) {
-        container.innerHTML = '<p style="text-align:center; padding: 2rem;">No upcoming shows listed at the moment. Check back soon!</p>';
+        contentArea.innerHTML = '<p style="text-align:center; padding: 2rem;">No upcoming shows listed at the moment. Check back soon!</p>';
         return;
     }
 
@@ -52,6 +87,7 @@ function renderEventsGroupedByCity(events) {
         return a.localeCompare(b);
     });
 
+    contentArea.innerHTML = '';
     sortedCities.forEach(city => {
         const section = document.createElement('section');
         section.className = 'city-section';
@@ -61,13 +97,11 @@ function renderEventsGroupedByCity(events) {
         header.textContent = city;
         section.appendChild(header);
 
-        const cityEvents = groups[city];
-        cityEvents.forEach(event => {
-            const card = createEventCard(event);
-            section.appendChild(card);
+        groups[city].forEach(event => {
+            section.appendChild(createEventCard(event));
         });
 
-        container.appendChild(section);
+        contentArea.appendChild(section);
     });
 }
 
@@ -94,12 +128,17 @@ function createEventCard(event) {
 }
 
 function showError(message) {
-    container.innerHTML = `
-        <div style="text-align: center; padding: 2rem; color: #be4840;">
+    const loader = container.querySelector('.loader');
+    if (loader) loader.remove();
+    
+    const errorDisplay = document.createElement('div');
+    errorDisplay.innerHTML = `
+        <div style="text-align: center; padding: 2rem; color: #be4840; border: 1px dashed #be4840; border-radius: 12px; background: rgba(190, 72, 64, 0.05);">
             <p>${message}</p>
         </div>
     `;
+    container.appendChild(errorDisplay);
 }
 
-// Start fetching
-fetchEvents();
+// Kick off the process
+init();
