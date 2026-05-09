@@ -1,4 +1,4 @@
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx6syu2YxNkKht2hMfxZz6C-ctoxVBUazkY1qF85AtEW__X3E_Qt9KiIl0ex30y0BXt/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxXbI0xnkn9FGyNbBzzuiVPoKXTUfkh0bXeQBa2WRm9OuKedm0XOfUiY8mkMc30Q2Nb/exec';
 const container = document.getElementById('event-container');
 const yearSpan = document.getElementById('year');
 yearSpan.textContent = new Date().getFullYear();
@@ -86,7 +86,14 @@ function renderEventsGroupedByCity(events) {
         header.textContent = city;
         section.appendChild(header);
 
-        groups[city].forEach(event => {
+        // Sort events within the city by date ascending
+        const cityEvents = groups[city].sort((a, b) => {
+            const dateA = a.Date ? new Date(a.Date) : new Date(8640000000000000); // Max date for empty
+            const dateB = b.Date ? new Date(b.Date) : new Date(8640000000000000);
+            return dateA - dateB;
+        });
+
+        cityEvents.forEach(event => {
             section.appendChild(createEventCard(event));
         });
 
@@ -101,15 +108,31 @@ function createEventCard(event) {
     const title = event.Title || 'Upcoming Show';
     const userDesc = event.EventDescription || '';
     const link = event.TicketLink || '#';
+    const dateStr = event.Date ? formatDate(event.Date) : '';
 
     card.innerHTML = `
         <div class="event-content">
-            <h3 class="event-title">${title}</h3>
+            <div class="event-header-row">
+                <h3 class="event-title">${title}</h3>
+                ${dateStr ? `<span class="event-date">${dateStr}</span>` : ''}
+            </div>
             ${userDesc ? `<div class="user-description">${userDesc}</div>` : ''}
             <a href="${link}" target="_blank" class="ticket-button">Get Tickets</a>
         </div>
     `;
     return card;
+}
+
+function formatDate(dateInput) {
+    if (!dateInput) return '';
+    const date = new Date(dateInput);
+    if (isNaN(date.getTime())) return dateInput; // Return as is if not a valid date
+    
+    return date.toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    });
 }
 
 function showError(message) {
